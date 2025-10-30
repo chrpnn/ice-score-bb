@@ -7,6 +7,5 @@ import TableItem from './TableItem.vue'
   <div class="flex flex-col gap-4 rounded-t-2xl py-8 px-8 bg-white h-screen text-gray-800">
     <TableHeader />
     <TableItem />
-    <TableItem />
   </div>
 </template>

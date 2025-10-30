@@ -1,4 +1,5 @@
 <template>
+  <div></div>
   <li class="grid px-2 grid-cols-[20px_160px_1fr_1fr_1fr_1fr_1fr]">
     <span
       v-for="col in columns"
