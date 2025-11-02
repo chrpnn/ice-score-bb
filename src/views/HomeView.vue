@@ -5,8 +5,8 @@ import TheHeader from '@/components/TheHeader.vue'
 </script>
 
 <template>
-  <main>
-    <div class="sticky top-0 bg-[#181818]">
+  <main class="bg-[#181818]">
+    <div class="sticky top-0 ">
       <TheHeader />
       <ThePodium />
     </div>
