@@ -6,11 +6,11 @@ import TheHeader from '@/components/TheHeader.vue'
 
 <template>
   <main>
-    <div class="sticky top-0">
+    <div class="sticky top-0 bg-[#181818]">
       <TheHeader />
       <ThePodium />
     </div>
-    <div class="relative">
+    <div class="relative ">
       <TheTable />
     </div>
     

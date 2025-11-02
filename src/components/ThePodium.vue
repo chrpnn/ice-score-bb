@@ -30,7 +30,3 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
-
-
-<!-- <p class="text-8xl" style="font-weight: 700">7</p> -->
