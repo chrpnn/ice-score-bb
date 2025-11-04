@@ -3,45 +3,50 @@ import { ref, computed } from 'vue'
 import { supabase } from '../lib/supabase'
 
 export const useStatsStore = defineStore('stats', () => {
-  const players = ref([])
+  // состояния
+  const players = ref([]) // все игроки с суммой показателей
+  const playerSessions = ref({}) // последние 5 игр каждого игрока
   const loading = ref(false)
   const error = ref(null)
 
+  // получение общей статы по всем игрокам
   const fetchStats = async () => {
     loading.value = true
     error.value = null
 
+    // получаем все записи из таблицы
     const { data, error: supaError } = await supabase
       .from('stats')
-      .select('id, tg_id, name, username, goals, assists, game_counter')
+      .select('tg_id, name, username, goals, assists, game_counter')
 
     if (supaError) {
-      console.error('Ошибка загрузки статистики:', supaError)
       error.value = supaError
       loading.value = false
       return
     }
 
-    // Группировка по tg_id
+    // группировка по tg_id
     const grouped = {}
     for (const p of data || []) {
-      const tgId = p.tg_id
-      if (!grouped[tgId]) {
-        grouped[tgId] = {
-          tg_id: tgId,
-          name: p.username || p.name || `Player ${p.tg_id}`,
+      const id = p.tg_id
+      if (!grouped[id]) {
+        grouped[id] = {
+          tg_id: id,
+          name: p.username || p.name || `Player ${id}`,
           goals: 0,
           assists: 0,
           games: 0,
         }
       }
-      grouped[tgId].goals += Number(p.goals || 0)
-      grouped[tgId].assists += Number(p.assists || 0)
-      grouped[tgId].games += Number(p.game_counter || 0)
+      grouped[id].goals += Number(p.goals || 0)
+      grouped[id].assists += Number(p.assists || 0)
+      grouped[id].games += Number(p.game_counter || 0)
     }
 
-    // Преобразуем в массив
-    const merged = Object.values(grouped).map(p => {
+    console.log(grouped)
+
+    // подсчёт очков и среднего за игру
+    const merged = Object.values(grouped).map((p) => {
       const points = p.goals + p.assists
       return {
         ...p,
@@ -50,24 +55,56 @@ export const useStatsStore = defineStore('stats', () => {
       }
     })
 
-    // Сортировка по очкам
-    merged.sort((a, b) => b.points - a.points)
+    // сортировка и присвоение мест
+    players.value = merged
+      .sort((a, b) => b.points - a.points)
+      .map((p, i) => ({ ...p, rank: i + 1 }))
 
-    // Добавляем место
-    players.value = merged.map((p, i) => ({ ...p, rank: i + 1 }))
     loading.value = false
   }
 
-  // Вычисляем лучших игроков
+  // загрузка последних 5 записей игрока
+  const fetchPlayerSessions = async (tgId) => {
+    if (!tgId || playerSessions.value[tgId]) return // не грузим повторно
+
+    const { data, error: supaError } = await supabase
+      .from('stats')
+      .select('goals, assists, game_day')
+      .eq('tg_id', tgId)
+      .order('game_day', { ascending: false })
+      .limit(5)
+
+    if (supaError) {
+      console.error(`Ошибка загрузки сессий (${tgId}):`, supaError)
+      return
+    }
+
+    playerSessions.value[tgId] = data
+  }
+
+  // лидеры по разным метрикам
   const topGoals = computed(() =>
-    players.value.reduce((a, b) => (b.goals > a.goals ? b : a), players.value[0])
-  )
-  const topPoints = computed(() =>
-    players.value.reduce((a, b) => (b.points > a.points ? b : a), players.value[0])
-  )
-  const topGames = computed(() =>
-    players.value.reduce((a, b) => (b.games > a.games ? b : a), players.value[0])
+    players.value.reduce((a, b) => (b.goals > a.goals ? b : a), players.value[0]),
   )
 
-  return { players, loading, error, fetchStats, topGoals, topPoints, topGames }
+  const topPoints = computed(() =>
+    players.value.reduce((a, b) => (b.points > a.points ? b : a), players.value[0]),
+  )
+
+  const topGames = computed(() =>
+    players.value.reduce((a, b) => (b.games > a.games ? b : a), players.value[0]),
+  )
+
+  // экспорт стора
+  return {
+    players,
+    playerSessions,
+    loading,
+    error,
+    fetchStats,
+    fetchPlayerSessions,
+    topGoals,
+    topPoints,
+    topGames,
+  }
 })
