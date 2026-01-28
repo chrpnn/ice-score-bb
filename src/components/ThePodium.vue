@@ -10,7 +10,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex gap-6 px-8 pt-12 pb-16 justify-center items-center text-center">
+  <div
+    class="flex gap-6 px-8 pt-12 pb-16 justify-center items-center text-center text-white opacity-30"
+  >
     <div v-if="store.topGoals" class="rounded-xl w-30 flex flex-col justify-center">
       <p class="text-sm">goals</p>
       <p class="text-8xl" style="font-weight: 700">{{ store.topGoals.goals }}</p>

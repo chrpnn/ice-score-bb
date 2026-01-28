@@ -17,7 +17,7 @@ export const useStatsStore = defineStore('stats', () => {
     // получаем все записи из таблицы
     const { data, error: supaError } = await supabase
       .from('stats')
-      .select('tg_id, name, username, goals, assists, game_counter')
+      .select('tg_id, name, username, goals, assists, game_counter, avatar_url')
 
     if (supaError) {
       error.value = supaError
@@ -27,21 +27,30 @@ export const useStatsStore = defineStore('stats', () => {
 
     // группировка по tg_id
     const grouped = {}
-    for (const p of data || []) {
-      const id = p.tg_id
-      if (!grouped[id]) {
-        grouped[id] = {
-          tg_id: id,
-          name: p.username || p.name || `Player ${id}`,
-          goals: 0,
-          assists: 0,
-          games: 0,
-        }
+  for (const p of data || []) {
+    const id = p.tg_id
+    if (!grouped[id]) {
+      grouped[id] = {
+        tg_id: id,
+        name: p.username || p.name || `Player ${id}`,
+        goals: 0,
+        assists: 0,
+        games: 0,
+        avatar_url: p.avatar_url || null, // сохраняем первую найденную аву
       }
-      grouped[id].goals += Number(p.goals || 0)
-      grouped[id].assists += Number(p.assists || 0)
-      grouped[id].games += Number(p.game_counter || 0)
     }
+
+    grouped[id].goals += Number(p.goals || 0)
+    grouped[id].assists += Number(p.assists || 0)
+    grouped[id].games += Number(p.game_counter || 0)
+
+    // если ещё нет аватарки, берём текущую
+    if (!grouped[id].avatar_url && p.avatar_url) {
+      grouped[id].avatar_url = p.avatar_url
+    }
+  }
+
+  
 
     console.log(grouped)
 
@@ -52,6 +61,7 @@ export const useStatsStore = defineStore('stats', () => {
         ...p,
         points,
         pointsPerGame: (points / (p.games || 1)).toFixed(2),
+        avatar_url: p.avatar_url || null,
       }
     })
 

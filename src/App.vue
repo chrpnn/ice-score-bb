@@ -1,14 +1,11 @@
-<script setup>
-import { RouterView } from 'vue-router'
-
-</script>
-
 <template>
-  
-
   <RouterView />
+  <TheFooter />
 </template>
 
-<style scoped>
+<script setup>
+import { RouterView } from 'vue-router'
+import TheFooter from './components/TheFooter.vue'
+</script>
 
-</style>
+<style scoped></style>
