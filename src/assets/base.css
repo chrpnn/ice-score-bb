@@ -1,4 +1,5 @@
 body {
+  background-color: #e5e7eb;
   min-height: 100vh;
   font-family:
     Oswald,
@@ -18,4 +19,47 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* 
+  Общий grid-контейнер для таблицы статистики.
+  ОБЯЗАТЕЛЬНО используется и в header, и в строках,
+  иначе колонки разъедутся на разных экранах
+*/
+.stats-grid {
+  display: grid;
+
+  /*
+    Структура колонок (единая для всей таблицы):
+    1 — ранг / позиция (фиксированная, узкая)
+    2 — имя игрока (адаптивная, но с ограничениями)
+    3–7 — числовая статистика (резиновые)
+  */
+  grid-template-columns:
+    24px /* rank */
+    minmax(140px, 200px) /* player name */
+    repeat(5, minmax(48px, 1fr)); /* stats columns */
+
+  /* Вертикальное выравнивание контента в ячейках */
+  align-items: center;
+}
+
+/*
+  Липкий header таблицы.
+  При скролле контейнера остаётся закреплённым сверху.
+  Работает только если родитель — scroll-контейнер
+  (overflow-y: auto / scroll).
+*/
+.stats-header {
+  position: sticky;
+  top: 0;
+
+  /* Поверх строк таблицы */
+  z-index: 20;
+
+  
+  
+
+  /* Визуальное отделение header от строк */
+  border-bottom: 1px solid #e5e7eb;
 }
