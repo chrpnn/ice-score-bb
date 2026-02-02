@@ -1,3 +1,10 @@
+<template>
+  <div class="max-w-3xl mx-auto rounded-t-2xl py-8 px-8 bg-gray-200 h-screen ">
+    <TableHeader @sort="sort = $event" />
+    <TableItem :players="sortedPlayers" />
+  </div>
+</template>
+
 <script setup>
 import TableHeader from './TableHeader.vue'
 import TableItem from './TableItem.vue'
@@ -27,10 +34,3 @@ const sortedPlayers = computed(() => {
   })
 })
 </script>
-
-<template>
-  <div class="max-w-3xl mx-auto rounded-t-2xl py-8 px-8 bg-gray-200 h-screen text-gray-800">
-    <TableHeader @sort="sort = $event" />
-    <TableItem :players="sortedPlayers" />
-  </div>
-</template>

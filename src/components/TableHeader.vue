@@ -1,35 +1,5 @@
-<script setup>
-import { ref } from 'vue'
-
-const sortKey = ref(null)
-const sortDir = ref('desc')
-
-const emit = defineEmits(['sort'])
-
-const columns = [
-  { key: 'rank', label: '', sortable: false },
-  { key: 'name', label: '', sortable: true },
-  { key: 'goals', label: 'G', sortable: true },
-  { key: 'assists', label: 'A', sortable: true },
-  { key: 'points', label: 'P', sortable: true },
-  { key: 'games', label: 'GP', sortable: true },
-  { key: 'pointsPerGame', label: 'P/GP', sortable: true },
-]
-
-const onSort = (key) => {
-  if (sortKey.value === key) {
-    sortDir.value = sortDir.value === 'asc' ? 'desc' : 'asc'
-  } else {
-    sortKey.value = key
-    sortDir.value = 'desc'
-  }
-
-  emit('sort', { key: sortKey.value, dir: sortDir.value })
-}
-</script>
-
 <template>
-  <li class="stats-grid stats-header px-2 py-4 text-xs text-gray-500 bg-gray-200">
+  <li class="stats-grid stats-header px-2 py-4 text-xs text-neutral-500 bg-gray-200">
     <span
       v-for="col in columns"
       :key="col.key"
@@ -61,3 +31,33 @@ const onSort = (key) => {
     </span>
   </li>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+
+const sortKey = ref(null)
+const sortDir = ref('desc')
+
+const emit = defineEmits(['sort'])
+
+const columns = [
+  { key: 'rank', label: '', sortable: false },
+  { key: 'name', label: '', sortable: true },
+  { key: 'goals', label: 'G', sortable: true },
+  { key: 'assists', label: 'A', sortable: true },
+  { key: 'points', label: 'P', sortable: true },
+  { key: 'games', label: 'GP', sortable: true },
+  { key: 'pointsPerGame', label: 'P/GP', sortable: true },
+]
+
+const onSort = (key) => {
+  if (sortKey.value === key) {
+    sortDir.value = sortDir.value === 'asc' ? 'desc' : 'asc'
+  } else {
+    sortKey.value = key
+    sortDir.value = 'desc'
+  }
+
+  emit('sort', { key: sortKey.value, dir: sortDir.value })
+}
+</script>

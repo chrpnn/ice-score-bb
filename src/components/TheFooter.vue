@@ -1,5 +1,7 @@
 <template>
-  <nav class="sticky bottom-0 flex justify-around p-4 rounded-t-2xl bg-white">
+  <nav
+    class="sticky bottom-0 flex justify-around p-4 border-t border-neutral-300 rounded-t-2xl bg-neutral-50"
+  >
     <RouterLink
       v-for="item in menu"
       :key="item.label"
@@ -20,11 +22,10 @@ import { RouterLink } from 'vue-router'
 import Icon from '@/components/TheIcon.vue'
 
 const menu = [
-  { label: 'Главная', icon: 'ph:hockey', to: '/' },
-  { label: 'Игроки', icon: 'mdi:contact', to: '/players' },
-  { label: 'Add', icon: 'gg:add', to: '/add' },
-  { label: 'Инфо', icon: 'ix:about-filled', to: '/about' },
-
-  { label: 'Профиль', icon: 'iconamoon:profile', to: '/profile' },
+  { label: 'Главная', icon: 'mdi-light:trophy', to: '/' },
+  { label: 'Игроки', icon: 'mdi-light:clipboard', to: '/players' },
+  { label: 'Add', icon: 'mdi-light:plus-box', to: '/add' },
+  { label: 'Инфо', icon: 'mdi-light:information', to: '/about' },
+  { label: 'Профиль', icon: 'mdi-light:account', to: '/profile' },
 ]
 </script>

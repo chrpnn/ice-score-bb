@@ -1,5 +1,5 @@
 <template>
-  <main class="bg-[#181818]">
+  <main class="bg-black">
     <div class="sticky top-0">
       <TheHeader />
       <ThePodium />
