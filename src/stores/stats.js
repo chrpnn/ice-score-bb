@@ -27,32 +27,28 @@ export const useStatsStore = defineStore('stats', () => {
 
     // группировка по tg_id
     const grouped = {}
-  for (const p of data || []) {
-    const id = p.tg_id
-    if (!grouped[id]) {
-      grouped[id] = {
-        tg_id: id,
-        name: p.username || p.name || `Player ${id}`,
-        goals: 0,
-        assists: 0,
-        games: 0,
-        avatar_url: p.avatar_url || null, // сохраняем первую найденную аву
+    for (const p of data || []) {
+      const id = p.tg_id
+      if (!grouped[id]) {
+        grouped[id] = {
+          tg_id: id,
+          name: p.username || p.name || `Player ${id}`,
+          goals: 0,
+          assists: 0,
+          games: 0,
+          avatar_url: p.avatar_url || null, // сохраняем первую найденную аву
+        }
+      }
+
+      grouped[id].goals += Number(p.goals || 0)
+      grouped[id].assists += Number(p.assists || 0)
+      grouped[id].games += Number(p.game_counter || 0)
+
+      // если ещё нет аватарки, берём текущую
+      if (!grouped[id].avatar_url && p.avatar_url) {
+        grouped[id].avatar_url = p.avatar_url
       }
     }
-
-    grouped[id].goals += Number(p.goals || 0)
-    grouped[id].assists += Number(p.assists || 0)
-    grouped[id].games += Number(p.game_counter || 0)
-
-    // если ещё нет аватарки, берём текущую
-    if (!grouped[id].avatar_url && p.avatar_url) {
-      grouped[id].avatar_url = p.avatar_url
-    }
-  }
-
-  
-
-    console.log(grouped)
 
     // подсчёт очков и среднего за игру
     const merged = Object.values(grouped).map((p) => {

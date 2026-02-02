@@ -1,18 +1,18 @@
 <template>
-  <div
-    class="w-[170px] rounded-2xl overflow-hidden border border-gray-300 bg-linear-to-r from-[#fbca38] from-0% via-[#ece6d3] via-40% to-[#fbca38] to-90%"
-  >
+  <div class="w-[170px] rounded-2xl overflow-hidden border border-gray-300">
     <!-- Header -->
-    <div class="p-1 text-center text-sm font-bold tracking-wide">
+    <div
+      class="p-1 text-center text-sm font-bold tracking-wide bg-linear-to-r from-[#fbca38] from-0% via-[#ece6d3] via-40% to-[#fbca38] to-90%"
+    >
       <span class="uppercase">{{ player.name }}</span>
     </div>
 
     <!-- Player image -->
     <div class="flex justify-center w-full">
       <img
-        :src="player.avatar_url || '../assets/images/ava.jpg'"
-        alt="Player"
-        class="h-35 w-full object-cover "
+        :src="player.avatar_url || defaultAvatar"
+        :alt="player.name"
+        class="h-35 w-full object-cover"
       />
     </div>
 
@@ -21,7 +21,7 @@
       <!-- Top info -->
       <div class="flex items-center justify-between">
         <!-- Position -->
-        <div class="text-center text-xs ">
+        <div class="text-center text-xs">
           <div>TWF</div>
         </div>
 
@@ -67,7 +67,13 @@ const props = defineProps({
   },
 })
 
-console.log(props.player)
+// Отладка
+console.log('Player data:', {
+  name: props.player.name,
+  avatar_url: props.player.avatar_url,
+  id: props.player.tg_id,
+  allProps: props.player,
+})
 
 // ⬇️ 2. стор
 const statsStore = useStatsStore()
