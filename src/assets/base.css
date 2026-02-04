@@ -1,3 +1,90 @@
+/* color palette from <https://github.com/vuejs/theme> */
+:root {
+  /* neutral-50 */
+  --vt-c-white: #fafafa;
+  /* neutral-200 */
+  --vt-c-white-soft: #e5e5e5;
+  /* neutral-400 */
+  --vt-c-white-mute: #a3a3a3;
+
+  /* neutral-500 */
+  --vt-c-black: #737373;
+  /* neutral-700 */
+  --vt-c-black-soft: #404040;
+  /* neutral-900 */
+  --vt-c-black-mute: #171717;
+
+  --vt-c-divider-light-1: #e5e5e5;
+  --vt-c-divider-light-2: #a3a3a3;
+  --vt-c-divider-dark-1: #737373;
+  --vt-c-divider-dark-2: #404040;
+
+  --vt-c-text-light-1: var(--vt-c-white-soft);
+  --vt-c-text-light-2: var(--vt-c-white-mute);
+  --vt-c-text-dark-1: var(--vt-c-black-mute);
+  --vt-c-text-dark-2: var(--vt-c-black-mute);
+}
+
+/* semantic color variables for this project */
+:root {
+  --color-background: var(--vt-c-white);
+  --color-background-soft: var(--vt-c-white-soft);
+  --color-background-mute: var(--vt-c-white-mute);
+
+  --color-border: var(--vt-c-divider-light-2);
+  --color-border-hover: var(--vt-c-divider-light-1);
+
+  --color-heading: var(--vt-c-text-light-1);
+  --color-text: var(--vt-c-text-light-1);
+
+  --section-gap: 160px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: var(--vt-c-black);
+    --color-background-soft: var(--vt-c-black-soft);
+    --color-background-mute: var(--vt-c-black-mute);
+
+    --color-border: var(--vt-c-divider-dark-2);
+    --color-border-hover: var(--vt-c-divider-dark-1);
+
+    --color-heading: var(--vt-c-text-dark-1);
+    --color-text: var(--vt-c-text-dark-2);
+  }
+}
+
+/*
+времнно для ручного переключания темы
+*/
+:root[data-theme='light'] {
+  --color-background: var(--vt-c-white);
+  --color-background-soft: var(--vt-c-white-soft);
+  --color-background-mute: var(--vt-c-white-mute);
+
+  --color-border: var(--vt-c-divider-light-2);
+  --color-border-hover: var(--vt-c-divider-light-1);
+
+  --color-heading: var(--vt-c-text-light-1);
+  --color-text: var(--vt-c-text-light-1);
+}
+
+:root[data-theme='dark'] {
+  --color-background: var(--vt-c-black);
+  --color-background-soft: var(--vt-c-black-soft);
+  --color-background-mute: var(--vt-c-black-mute);
+
+  --color-border: var(--vt-c-divider-dark-2);
+  --color-border-hover: var(--vt-c-divider-dark-1);
+
+  --color-heading: var(--vt-c-text-dark-1);
+  --color-text: var(--vt-c-text-dark-2);
+}
+
+/*
+времнно для ручного переключания темы
+*/
+
 body {
   background-color: #e5e7eb;
   min-height: 100vh;
@@ -37,8 +124,8 @@ body {
   */
   grid-template-columns:
     24px /* rank */
-    minmax(140px, 200px) /* player name */
-    repeat(5, minmax(48px, 1fr)); /* stats columns */
+    minmax(140px, 180px) /* player name */
+    repeat(5, minmax(36px, 1fr)); /* stats columns */
 
   /* Вертикальное выравнивание контента в ячейках */
   align-items: center;
@@ -56,10 +143,4 @@ body {
 
   /* Поверх строк таблицы */
   z-index: 20;
-
-  
-  
-
-  /* Визуальное отделение header от строк */
-  border-bottom: 1px solid #e5e7eb;
 }

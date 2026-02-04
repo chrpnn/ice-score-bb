@@ -1,11 +1,12 @@
 <template>
-  <main class="bg-black">
+  <main class="bg-(--vt-c-black-mute)">
     <div class="sticky top-0">
       <TheHeader />
       <ThePodium />
     </div>
     <div class="relative">
       <TheTable />
+      
     </div>
   </main>
 </template>
@@ -14,4 +15,5 @@
 import TheTable from '@/components/TheTable.vue'
 import ThePodium from '@/components/ThePodium.vue'
 import TheHeader from '@/components/TheHeader.vue'
+
 </script>
