@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-md mx-auto p-8 space-y-8 h-screen-min">
+  <div class="max-w-md mx-auto p-8 space-y-8 h-[calc(100vh-5.5rem)]">
     <!-- Форма -->
     <div
       class="bg-(--color-background) rounded-2xl border border-(--vt-c-divider-light-2) p-4 space-y-4"

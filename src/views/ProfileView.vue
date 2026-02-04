@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-md mx-auto p-8 space-y-6 h-screen">
+  <div class="items-center p-8 h-[calc(100vh-5.5rem)]">
     <div class="bg-white rounded-2xl shadow p-4 space-y-5">
       <h2 class="text-xl font-semibold text-center">Профиль игрока</h2>
       <p class="text-center text-gray-700 font-medium">
@@ -59,14 +59,11 @@
       >
         Сохранить профиль
       </button>
-      <TempToggleTheme />
     </div>
   </div>
 </template>
 
 <script setup>
-import TempToggleTheme from '@/components/widgets/TempToggleTheme.vue'
-
 import { ref, onMounted } from 'vue'
 import { getTelegramUser } from '@/utils/useTelegramUser'
 
