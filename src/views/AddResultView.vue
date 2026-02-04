@@ -132,7 +132,7 @@ const addResult = async () => {
 }
 
 const removeResult = async (id) => {
-  await deleteStat(id)
+  await deleteStat(id, user.tg_id)
   results.value = results.value.filter((r) => r.id !== id)
 }
 

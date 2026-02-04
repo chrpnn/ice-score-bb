@@ -2,13 +2,17 @@
   <div class="max-w-md mx-auto p-8 space-y-6 h-screen">
     <div class="bg-white rounded-2xl shadow p-4 space-y-5">
       <h2 class="text-xl font-semibold text-center">Профиль игрока</h2>
+      <p class="text-center text-gray-700 font-medium">
+        {{ tgUser?.name || 'Игрок' }}
+        <span v-if="tgUser?.username" class="text-sm text-gray-400"> @{{ tgUser.username }} </span>
+      </p>
 
       <!-- Аватар -->
       <div class="flex flex-col items-center gap-3">
         <div
           class="w-28 h-28 rounded-full bg-gray-100 overflow-hidden flex items-center justify-center"
         >
-          <img v-if="avatarPreview" :src="avatarPreview" class="w-full h-full object-cover" />
+          <img v-if="avatarPreview" :src="tgUser.avatar_url" class="w-full h-full object-cover" />
           <span v-else class="text-gray-400 text-sm"> Нет фото </span>
         </div>
 
@@ -62,7 +66,19 @@
 
 <script setup>
 import TempToggleTheme from '@/components/widgets/TempToggleTheme.vue'
-import { ref } from 'vue'
+
+import { ref, onMounted } from 'vue'
+import { getTelegramUser } from '@/utils/useTelegramUser'
+
+const tgUser = ref(null)
+
+onMounted(() => {
+  tgUser.value = getTelegramUser()
+
+  if (tgUser.value?.avatar_url) {
+    avatarPreview.value = tgUser.value.avatar_url
+  }
+})
 
 const avatar = ref(null)
 const avatarPreview = ref(null)
