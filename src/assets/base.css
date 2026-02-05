@@ -21,7 +21,7 @@
 
   --vt-c-text-light-1: var(--vt-c-white-soft);
   --vt-c-text-light-2: var(--vt-c-white-mute);
-  --vt-c-text-dark-1: var(--vt-c-black-mute);
+  --vt-c-text-dark-1: var(--vt-c-black-soft);
   --vt-c-text-dark-2: var(--vt-c-black-mute);
 }
 

@@ -5,9 +5,7 @@
       <p>Всего игроков: {{ statsStore.players.length }}</p>
     </div>
 
-    <div class="flex flex-wrap gap-6 justify-between">
-      <TheCard v-for="player in statsStore.players" :key="player.tg_id" :player="player" />
-      <TheCard v-for="player in statsStore.players" :key="player.tg_id" :player="player" />
+    <div class="flex flex-wrap justify-evenly gap-x-4 gap-y-6 ">
       <TheCard v-for="player in statsStore.players" :key="player.tg_id" :player="player" />
     </div>
   </div>

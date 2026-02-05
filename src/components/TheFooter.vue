@@ -7,10 +7,24 @@
       :key="item.label"
       :to="item.to"
       class="flex flex-col items-center gap-1"
+      v-slot="{ isActive }"
     >
-      <Icon :icon="item.icon" size="30px" />
+      <Icon
+        :icon="item.icon"
+        size="40px"
+        :class="[
+          'transition-colors duration-200',
+          isActive ? 'text-(--vt-c-black-soft)' : 'text-(--vt-c-white-mute)',
+        ]"
+      />
 
-      <span class="text-sm">
+      <span
+        class="text-xs"
+        :class="[
+          'text-sm transition-colors duration-300',
+          isActive ? 'text-(--vt-c-black-soft) ' : 'text-(--vt-c-white-mute)',
+        ]"
+      >
         {{ item.label }}
       </span>
     </RouterLink>
