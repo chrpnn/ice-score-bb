@@ -1,5 +1,5 @@
 <template>
-  <div class="items-center p-8 h-[calc(100vh-5.5rem)]">
+  <div class="items-center p-8 min-h-[calc(100vh-5.5rem)]">
     <div class="bg-white rounded-2xl shadow p-4 space-y-5">
       <h2 class="text-xl font-semibold text-center">Профиль игрока</h2>
       <p class="text-center text-gray-700 font-medium">

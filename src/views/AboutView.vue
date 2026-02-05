@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col p-8 gap-8 bg-gray-200">
+  <div class="min-h-[calc(100vh-5.5rem)] space-y-8 p-8 gap-8 bg-gray-200">
     <RatingsHeader />
     <RatingsPrinciples />
     <RatingsMetrics />
