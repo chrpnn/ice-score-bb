@@ -65,12 +65,10 @@ import { getTelegramUser } from '@/utils/useTelegramUser'
 import { getPlayerProfile, updatePlayerProfile } from '@/utils/useProfile'
 
 const tgUser = ref(null)
-
 const avatarPreview = ref(null)
-
+const avatar = ref(null)
 const position = ref('')
 const favoriteTeam = ref('')
-
 const positions = ['Вратарь', 'Защитник', 'Нападающий', 'Универсал']
 const teams = ['СКА', 'ЦСКА', 'Ак Барс', 'Авангард', 'Металлург', 'Динамо']
 
@@ -96,7 +94,6 @@ onMounted(async () => {
 
 // сохранение профиля
 const saveProfile = async () => {
-
   console.log('КНОПКА НАЖАТА')
   if (!tgUser.value?.id) return
 
@@ -104,6 +101,7 @@ const saveProfile = async () => {
     await updatePlayerProfile(tgUser.value.id, {
       position: position.value,
       favoriteTeam: favoriteTeam.value,
+      avatar: avatar.value,
     })
 
     console.log('Профиль сохранён')

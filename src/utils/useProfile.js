@@ -20,11 +20,17 @@ export const getPlayerProfile = async (tg_id) => {
 export const updatePlayerProfile = async (tg_id, profileData) => {
   const { data, error } = await supabase
     .from('players')
-    .update({
-      position: profileData.position,
-      favorite_team: profileData.favoriteTeam,
-    })
-    .eq('tg_id', tg_id)
+    .upsert(
+      {
+        tg_id: tg_id,
+        position: profileData.position,
+        favorite_team: profileData.favoriteTeam,
+      },
+      {
+        onConflict: 'tg_id',
+      }
+    )
+    
     .select()
     .single()
 
