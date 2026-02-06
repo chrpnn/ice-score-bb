@@ -14,7 +14,12 @@ export const ensurePlayer = async () => {
 
   const { data, error } = await supabase
     .from('players')
+  //   .insert({
+  //   tg_id: '111',
+  //   name: 'TEST INSERT',
+  // })
     .upsert(payload, { onConflict: 'tg_id' })
+    
     .select()
     .single()
 
