@@ -109,6 +109,7 @@ const loadStats = async () => {
     .order('game_day', { ascending: false })
 
   results.value = data || []
+  console.log('Results:', results.value)
 }
 
 const addResult = async () => {

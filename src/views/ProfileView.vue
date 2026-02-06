@@ -1,35 +1,31 @@
 <template>
   <div class="items-center p-8 min-h-[calc(100vh-5.5rem)]">
-    <div class="bg-white rounded-2xl shadow p-4 space-y-5">
-      <h2 class="text-xl font-semibold text-center">Профиль игрока</h2>
+    <div
+      class="flex flex-col p-4 gap-4 bg-(--color-background) border border-(--vt-c-divider-light-2) rounded-2xl"
+    >
       <p class="text-center text-gray-700 font-medium">
         {{ tgUser?.name || 'Игрок' }}
-        <span v-if="tgUser?.username" class="text-sm text-gray-400"> @{{ tgUser.username }} </span>
+      </p>
+      <p v-if="tgUser?.username" class="text-center text-sm text-gray-400">
+        @{{ tgUser.username }}
       </p>
 
       <!-- Аватар -->
       <div class="flex flex-col items-center gap-3">
         <div
-          class="w-28 h-28 rounded-full bg-gray-100 overflow-hidden flex items-center justify-center"
+          class="w-38 h-38 rounded-full bg-gray-100 overflow-hidden flex items-center justify-center"
         >
           <img v-if="avatarPreview" :src="tgUser.avatar_url" class="w-full h-full object-cover" />
           <span v-else class="text-gray-400 text-sm"> Нет фото </span>
         </div>
-
-        <label
-          class="cursor-pointer text-sm text-blue-600 border border-blue-200 px-4 py-2 rounded-xl active:scale-[0.98]"
-        >
-          Загрузить фото
-          <input type="file" accept="image/*" class="hidden" @change="onAvatarChange" />
-        </label>
       </div>
 
       <!-- Позиция -->
-      <div class="space-y-1">
-        <label class="text-sm text-gray-600"> Позиция на поле </label>
+      <div class="flex flex-col gap-2">
+        <label class="px-2 text-sm text-gray-600"> Предпочитаемая позиция на поле: </label>
         <select
           v-model="position"
-          class="w-full border rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="w-full border border-(--vt-c-divider-light-2) rounded-2xl px-4 py-3 bg-(--color-background-soft)"
         >
           <option value="" disabled>Выберите позицию</option>
           <option v-for="pos in positions" :key="pos" :value="pos">
@@ -39,11 +35,11 @@
       </div>
 
       <!-- Команда -->
-      <div class="space-y-1">
-        <label class="text-sm text-gray-600"> Любимая команда </label>
+      <div class="flex flex-col gap-2">
+        <label class="px-2 text-sm text-gray-600"> Любимая команда: </label>
         <select
           v-model="favoriteTeam"
-          class="w-full border rounded-xl px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="w-full border border-(--vt-c-divider-light-2) rounded-2xl px-4 py-3 bg-(--color-background-soft)"
         >
           <option value="" disabled>Выберите команду</option>
           <option v-for="team in teams" :key="team" :value="team">
@@ -66,35 +62,53 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { getTelegramUser } from '@/utils/useTelegramUser'
+import { getPlayerProfile, updatePlayerProfile } from '@/utils/useProfile'
 
 const tgUser = ref(null)
 
-onMounted(() => {
-  tgUser.value = getTelegramUser()
-
-  if (tgUser.value?.avatar_url) {
-    avatarPreview.value = tgUser.value.avatar_url
-  }
-})
-
-const avatar = ref(null)
 const avatarPreview = ref(null)
 
 const position = ref('')
 const favoriteTeam = ref('')
 
 const positions = ['Вратарь', 'Защитник', 'Нападающий', 'Универсал']
-
 const teams = ['СКА', 'ЦСКА', 'Ак Барс', 'Авангард', 'Металлург', 'Динамо']
 
-// сохранение профиля
-const saveProfile = () => {
-  const profileData = {
-    position: position.value,
-    favoriteTeam: favoriteTeam.value,
-    avatar: avatar.value, // File (удобно для FormData)
+onMounted(async () => {
+  tgUser.value = getTelegramUser()
+
+  if (!tgUser.value?.id) return
+
+  if (tgUser.value.avatar_url) {
+    avatarPreview.value = tgUser.value.avatar_url
   }
 
-  console.log('Отправка на бек:', profileData)
+  try {
+    const profile = await getPlayerProfile(tgUser.value.id)
+
+    // 👉 значения по умолчанию из БД
+    position.value = profile.position || ''
+    favoriteTeam.value = profile.favorite_team || ''
+  } catch {
+    console.warn('Профиль не найден или ошибка загрузки')
+  }
+})
+
+// сохранение профиля
+const saveProfile = async () => {
+
+  console.log('КНОПКА НАЖАТА')
+  if (!tgUser.value?.id) return
+
+  try {
+    await updatePlayerProfile(tgUser.value.id, {
+      position: position.value,
+      favoriteTeam: favoriteTeam.value,
+    })
+
+    console.log('Профиль сохранён')
+  } catch (error) {
+    console.error('Ошибка сохранения профиля:', error)
+  }
 }
 </script>
