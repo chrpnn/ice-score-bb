@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="sticky bottom-0 flex justify-around p-4 h-22 border-t border-neutral-300 rounded-t-2xl bg-neutral-50"
+    class="sticky bottom-0 mt-6 flex justify-around p-4 h-22 border-t border-neutral-300 rounded-t-2xl bg-neutral-50"
   >
     <RouterLink
       v-for="item in menu"

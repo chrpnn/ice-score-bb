@@ -56,7 +56,7 @@ export const useStatsStore = defineStore('stats', () => {
       return {
         ...p,
         points,
-        pointsPerGame: (points / (p.games || 1)).toFixed(2),
+        pointsPerGame: (points / (p.games || 1)).toFixed(1),
         avatar_url: p.avatar_url || null,
       }
     })

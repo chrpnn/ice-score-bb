@@ -1,10 +1,10 @@
 <template>
-  <div class="w-[170px] rounded-2xl overflow-hidden border border-gray-300">
+  <div class="w-full  rounded-2xl overflow-hidden border border-gray-300">
     <!-- Header -->
     <div
-      class="p-1 text-center text-sm font-bold tracking-wide bg-linear-to-r from-[#fbca38] from-0% via-[#ece6d3] via-40% to-[#fbca38] to-90%"
+      class="p-1 text-center text-sm font-bold tracking-wide bg-linear-to-r from-[#e9e9e9] from-0% via-[#e7e7e7] via-40% to-[#cdcdcd] to-90%"
     >
-      <span class="uppercase">{{ player.name }}</span>
+      <span class="uppercase truncate block px-1">{{ player.name }}</span>
     </div>
 
     <!-- Player image -->

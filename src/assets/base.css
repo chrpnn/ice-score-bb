@@ -77,7 +77,7 @@ body {
   */
   grid-template-columns:
     24px /* rank */
-    minmax(100px, 170px) /* player name */
+    minmax(80px, 170px) /* player name */
     repeat(5, minmax(36px, 1fr)); /* stats columns */
 
   /* Вертикальное выравнивание контента в ячейках */
