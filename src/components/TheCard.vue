@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full  rounded-2xl overflow-hidden border border-gray-300">
+  <div class="w-full rounded-2xl overflow-hidden border border-gray-300">
     <!-- Header -->
     <div
       class="p-1 text-center text-sm font-bold tracking-wide bg-linear-to-r from-[#e9e9e9] from-0% via-[#e7e7e7] via-40% to-[#cdcdcd] to-90%"
@@ -22,7 +22,7 @@
       <div class="flex items-center justify-between">
         <!-- Position -->
         <div class="text-center text-xs">
-          <div>TWF</div>
+          <div>{{ playerPosition }}</div>
         </div>
 
         <!-- Overall -->
@@ -32,13 +32,13 @@
           <div class="text-xs">OVR</div>
         </div>
 
-        <div class="text-xs">DET</div>
+        <div class="text-xs">{{ playerTeam }}</div>
 
         <!-- Team logo mock -->
         <div
-          class="absolute -top-5 right-4 w-10 h-10 p-1 bg-white border border-gray-200 outline-4 outline-white rounded-full flex items-center justify-center font-bold"
+          class="absolute -top-5 right-0 w-14 h-10 p-2 bg-white rounded-l-2xl flex items-center justify-center font-bold"
         >
-          <img src="../assets/images/Detroit.svg" alt="" />
+          <img src="../assets/images/Philadelphia.svg" alt="" />
         </div>
       </div>
 
@@ -55,9 +55,10 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useStatsStore } from '@/stores/stats'
 import { calculateRatings } from '@/rating/ratingEngine'
+// import { nhlTeams } from '@/data/nhlTeams'
 
 // ⬇️ 1. props
 const props = defineProps({
@@ -67,24 +68,52 @@ const props = defineProps({
   },
 })
 
-// Отладка
-console.log('Player data:', {
-  name: props.player.name,
-  avatar_url: props.player.avatar_url,
-  id: props.player.tg_id,
-  allProps: props.player,
+// Состояния для данных профиля
+const playerProfile = ref(null)
+const loadingProfile = ref(false)
+
+// Получаем данные профиля
+onMounted(async () => {
+  if (props.player.tg_id) {
+    loadingProfile.value = true
+    try {
+      // Здесь нужно импортировать функцию получения профиля
+      const { getPlayerProfile } = await import('@/utils/useProfile')
+      playerProfile.value = await getPlayerProfile(props.player.tg_id)
+    } catch (error) {
+      console.error('Ошибка загрузки профиля:', error)
+    } finally {
+      loadingProfile.value = false
+    }
+  }
 })
 
-// ⬇️ 2. стор
+// Вычисляемые свойства
+const playerPosition = computed(() => {
+  return playerProfile.value?.position || ''
+})
+
+const playerTeam = computed(() => {
+  return playerProfile.value?.favorite_team_short || ''
+})
+
+// const teamLogo = computed(() => {
+//   if (!playerProfile.value?.favorite_team) return null
+
+//   const team = nhlTeams.find(
+//     (t) =>
+//       t.name === playerProfile.value.favorite_team ||
+//       t.short_name === playerProfile.value.favorite_team,
+//   )
+
+//   return team?.avatar || null
+// })
+
+// Статистика
 const statsStore = useStatsStore()
-
-// ⬇️ 3. все игроки (пул)
 const allPlayers = computed(() => statsStore.players)
-
-// ⬇️ 4. рейтинги (ОБЯЗАТЕЛЬНО computed)
 const ratings = computed(() => calculateRatings(props.player, allPlayers.value))
 
-// ⬇️ 5. статы для UI
 const stats = computed(() => [
   { label: 'SKT', value: ratings.value.SKT },
   { label: 'SHT', value: ratings.value.SHT },

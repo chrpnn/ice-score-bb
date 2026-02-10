@@ -7,7 +7,7 @@ export const getTelegramUser = () => {
       tg_id: '999999999',
       name: 'Dev Tester',
       username: 'dev_user',
-      avatar_url: null,
+      avatar_url: 'https://s0.rbk.ru/v6_top_pics/media/img/6/83/347551821477836.jpeg',
     }
   }
 

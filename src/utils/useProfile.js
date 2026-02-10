@@ -1,10 +1,12 @@
 import { supabase } from '../lib/supabase'
 
-// получить профиль игрока
+// Получение профиля игрока
 export const getPlayerProfile = async (tg_id) => {
+  console.log('getPlayerProfile вызван с tg_id:', tg_id)
+  
   const { data, error } = await supabase
     .from('players')
-    .select('position, favorite_team')
+    .select('*')
     .eq('tg_id', tg_id)
     .single()
 
@@ -13,24 +15,23 @@ export const getPlayerProfile = async (tg_id) => {
     throw error
   }
 
+  console.log('Профиль получен:', data)
   return data
 }
 
-// обновить профиль
+// Обновление профиля игрока
 export const updatePlayerProfile = async (tg_id, profileData) => {
+  console.log('updatePlayerProfile вызван с:', { tg_id, profileData })
+  
   const { data, error } = await supabase
     .from('players')
-    .upsert(
-      {
-        tg_id: tg_id,
-        position: profileData.position,
-        favorite_team: profileData.favoriteTeam,
-      },
-      {
-        onConflict: 'tg_id',
-      }
-    )
-    
+    .upsert({
+      tg_id: tg_id,
+      position: profileData.position,
+      favorite_team: profileData.favoriteTeam,
+    }, {
+      onConflict: 'tg_id',
+    })
     .select()
     .single()
 
@@ -39,5 +40,6 @@ export const updatePlayerProfile = async (tg_id, profileData) => {
     throw error
   }
 
+  console.log('Профиль обновлён:', data)
   return data
 }
