@@ -33,11 +33,13 @@
       </div>
 
       <button
-        @click="addResult"
-        class="w-full bg-(--color-background-mute) text-(--vt-c-white) py-3 rounded-2xl"
-      >
-        Сохранить результат
-      </button>
+  @click="addResult"
+  class="w-full bg-(--color-background-mute) text-(--vt-c-white) py-3 rounded-2xl flex items-center justify-center gap-2"
+  :disabled="loading"
+>
+  <span v-if="loading" class="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+  <span>{{ loading ? 'Сохранение...' : 'Сохранить результат' }}</span>
+</button>
     </div>
 
     <!-- История -->
@@ -112,24 +114,31 @@ const loadStats = async () => {
   console.log('Results:', results.value)
 }
 
+const loading = ref(false)
+
 const addResult = async () => {
   if (goals.value === null || assists.value === null || !gameDay.value) return
 
-  const newStat = await addStat({
-    tg_id: user.tg_id,
-    name: user.name,
-    username: user.username,
-    avatar_url: user.avatar_url,
-    goals: goals.value,
-    assists: assists.value,
-    game_day: gameDay.value,
-  })
+  loading.value = true
+  try {
+    const newStat = await addStat({
+      tg_id: user.tg_id,
+      name: user.name,
+      username: user.username,
+      avatar_url: user.avatar_url,
+      goals: goals.value,
+      assists: assists.value,
+      game_day: gameDay.value,
+    })
 
-  results.value.unshift(newStat)
+    results.value.unshift(newStat)
 
-  goals.value = null
-  assists.value = null
-  gameDay.value = ''
+    goals.value = null
+    assists.value = null
+    gameDay.value = ''
+  } finally {
+    loading.value = false
+  }
 }
 
 const removeResult = async (id) => {
@@ -138,4 +147,6 @@ const removeResult = async (id) => {
 }
 
 onMounted(loadStats)
+
+
 </script>

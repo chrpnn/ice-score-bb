@@ -36,9 +36,9 @@
 
         <!-- Team logo mock -->
         <div
-          class="absolute -top-5 right-0 w-14 h-10 p-2 bg-white rounded-l-2xl flex items-center justify-center font-bold"
+          class="absolute -top-5 right-0 w-14 h-10 p-4 bg-white rounded-l-2xl flex items-center justify-center font-bold"
         >
-          <img src="../assets/images/Philadelphia.svg" alt="" />
+          <img src="../assets/images/NHL.svg" alt="" />
         </div>
       </div>
 
@@ -116,8 +116,8 @@ const ratings = computed(() => calculateRatings(props.player, allPlayers.value))
 
 const stats = computed(() => [
   { label: 'SKT', value: ratings.value.SKT },
-  { label: 'SHT', value: ratings.value.SHT },
-  { label: 'HND', value: ratings.value.HND },
-  { label: 'CHK', value: ratings.value.CHK },
+  { label: 'PAS', value: ratings.value.SHT },
+  { label: 'OZE', value: ratings.value.HND },
+  { label: 'POI', value: ratings.value.CHK },
 ])
 </script>

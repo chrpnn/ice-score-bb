@@ -147,7 +147,7 @@ const saveProfile = async () => {
     })
 
     console.log('Профиль сохранён:', result)
-    successMessage.value = 'Профиль успешно сохранён!'
+    // successMessage.value = 'Профиль успешно сохранён!'
 
     // Скрываем сообщение через 3 секунды
     setTimeout(() => {
