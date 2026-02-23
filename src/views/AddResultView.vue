@@ -33,13 +33,16 @@
       </div>
 
       <button
-  @click="addResult"
-  class="w-full bg-(--color-background-mute) text-(--vt-c-white) py-3 rounded-2xl flex items-center justify-center gap-2"
-  :disabled="loading"
->
-  <span v-if="loading" class="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-  <span>{{ loading ? 'Сохранение...' : 'Сохранить результат' }}</span>
-</button>
+        @click="addResult"
+        class="w-full bg-(--color-background-mute) text-(--vt-c-white) py-3 rounded-2xl flex items-center justify-center gap-2"
+        :disabled="loading"
+      >
+        <span
+          v-if="loading"
+          class="inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"
+        ></span>
+        <span>{{ loading ? 'Сохранение...' : 'Сохранить результат' }}</span>
+      </button>
     </div>
 
     <!-- История -->
@@ -147,6 +150,4 @@ const removeResult = async (id) => {
 }
 
 onMounted(loadStats)
-
-
 </script>

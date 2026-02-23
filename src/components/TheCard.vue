@@ -9,10 +9,12 @@
 
     <!-- Player image -->
     <div class="flex justify-center w-full">
-      <img
+      <Image
         :src="player.avatar_url || defaultAvatar"
         :alt="player.name"
         class="h-35 w-full object-cover"
+        loading="lazy"
+        decoding="async"
       />
     </div>
 
@@ -34,11 +36,11 @@
 
         <div class="text-xs">{{ playerTeam }}</div>
 
-        <!-- Team logo mock -->
+        <!-- Team logo -->
         <div
-          class="absolute -top-5 right-0 w-14 h-10 p-4 bg-white rounded-l-2xl flex items-center justify-center font-bold"
+          class="absolute -top-5 right-0 w-14 h-10 p-2 bg-white rounded-l-2xl flex items-center justify-center font-bold"
         >
-          <img src="../assets/images/NHL.svg" alt="" />
+          <img :src="teamLogo" alt="" loading="lazy" />
         </div>
       </div>
 
@@ -58,7 +60,7 @@
 import { computed, ref, onMounted } from 'vue'
 import { useStatsStore } from '@/stores/stats'
 import { calculateRatings } from '@/rating/ratingEngine'
-// import { nhlTeams } from '@/data/nhlTeams'
+import { Image } from '@unpic/vue'
 
 // ⬇️ 1. props
 const props = defineProps({
@@ -97,17 +99,12 @@ const playerTeam = computed(() => {
   return playerProfile.value?.favorite_team_short || ''
 })
 
-// const teamLogo = computed(() => {
-//   if (!playerProfile.value?.favorite_team) return null
+const teamLogo = computed(() => {
+  const abbr = playerProfile.value?.favorite_team_short
+  if (!abbr || abbr === 'N/A') return null
 
-//   const team = nhlTeams.find(
-//     (t) =>
-//       t.name === playerProfile.value.favorite_team ||
-//       t.short_name === playerProfile.value.favorite_team,
-//   )
-
-//   return team?.avatar || null
-// })
+  return `/logos/${abbr}.svg`
+})
 
 // Статистика
 const statsStore = useStatsStore()
