@@ -79,7 +79,7 @@
 import { ref, onMounted } from 'vue'
 import { getTelegramUser } from '@/utils/useTelegramUser'
 import { getPlayerProfile, updatePlayerProfile } from '@/utils/useProfile'
-
+import { nhlTeams } from '@/data/nhlTeams'
 
 const tgUser = ref(null)
 const position = ref('')
